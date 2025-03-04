@@ -29,6 +29,7 @@ function contact_form_submit($request) {
     // Extrai e sanitiza os parâmetros
     $name = isset($params['name']) ? sanitize_text_field($params['name']) : '';
     $email = isset($params['email']) ? sanitize_email($params['email']) : '';
+    $phone = isset($params['phone']) ? sanitize_text_field($params['phone']) : '';
     $message = isset($params['message']) ? sanitize_textarea_field($params['message']) : '';
     $tag = isset($params['tag']) ? sanitize_text_field($params['tag']) : '';
 
@@ -39,6 +40,10 @@ function contact_form_submit($request) {
     
     if (empty($email) || !is_email($email)) {
         return new WP_Error('invalid_email_data', __('Email inválido'), array('status' => 400));
+    }
+    
+    if (empty($phone)) {
+        return new WP_Error('invalid_phone_data', __('Telefone não pode estar vazio'), array('status' => 400));
     }
     
     if (empty($message)) {
@@ -59,6 +64,7 @@ function contact_form_submit($request) {
     // Atualiza os campos personalizados
     update_field('email', $email, $post_id);
     update_field('name', $name, $post_id);
+    update_field('phone', $phone, $post_id);
 
     // Adiciona a tag ao post
     if (!empty($tag)) {

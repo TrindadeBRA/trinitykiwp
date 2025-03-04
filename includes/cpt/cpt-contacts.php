@@ -55,6 +55,7 @@ add_action( 'init', 'register_contact_form_post_type' );
 function contact_form_columns( $columns ) {
     $columns['name'] = 'Nome';
     $columns['email'] = 'Email';
+    $columns['phone'] = 'Telefone';
     $columns['message'] = 'Mensagem';
     unset( $columns['author'] );
     return $columns;
@@ -68,6 +69,9 @@ function contact_form_column_content( $column, $post_id ) {
             break;
         case 'email':
             echo get_field( 'email', $post_id );
+            break;
+        case 'phone':
+            echo get_field( 'phone', $post_id );
             break;
         case 'message':
             echo get_post_field( 'post_content', $post_id );
@@ -118,7 +122,8 @@ function handle_export_bulk_action($redirect_to, $action, $post_ids) {
         'ID', 
         'Data', 
         'Nome', 
-        'Email', 
+        'Email',
+        'Telefone',
         'Mensagem', 
         'Tags'
     ));
@@ -133,6 +138,7 @@ function handle_export_bulk_action($redirect_to, $action, $post_ids) {
         
         $name = get_field('name', $post_id);
         $email = get_field('email', $post_id);
+        $phone = get_field('phone', $post_id);
         $message = wp_strip_all_tags($post->post_content);
         
         // Obtém as tags do lead
@@ -148,6 +154,7 @@ function handle_export_bulk_action($redirect_to, $action, $post_ids) {
             $post_date,
             $name,
             $email,
+            $phone,
             $message,
             $tags_string
         ));
@@ -208,7 +215,8 @@ function process_export_all_leads() {
         'ID', 
         'Data', 
         'Nome', 
-        'Email', 
+        'Email',
+        'Telefone',
         'Mensagem', 
         'Tags'
     ));
@@ -229,6 +237,7 @@ function process_export_all_leads() {
             
             $name = get_field('name', $post_id);
             $email = get_field('email', $post_id);
+            $phone = get_field('phone', $post_id);
             $message = wp_strip_all_tags(get_the_content());
             
             // Obtém as tags do lead
@@ -244,6 +253,7 @@ function process_export_all_leads() {
                 $post_date,
                 $name,
                 $email,
+                $phone,
                 $message,
                 $tags_string
             ));

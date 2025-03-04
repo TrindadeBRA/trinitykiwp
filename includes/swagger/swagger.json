@@ -421,7 +421,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["name", "email", "message"],
+                  "required": ["name", "email", "message", "phone"],
                   "properties": {
                     "name": {
                       "type": "string",
@@ -433,6 +433,11 @@
                       "format": "email",
                       "description": "Email do contato",
                       "example": "joao@exemplo.com"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "description": "Telefone do contato",
+                      "example": "(11) 98765-4321"
                     },
                     "message": {
                       "type": "string",

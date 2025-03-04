@@ -13,6 +13,7 @@ require_once THEME_DIR . 'includes/cpt/cpt-products.php';
 require_once THEME_DIR . 'includes/cpt/cpt-contacts.php';
 require_once THEME_DIR . 'includes/scf/scf-segments.php';
 require_once THEME_DIR . 'includes/scf/scf-products.php';
+require_once THEME_DIR . 'includes/scf/scf-contacts.php';
 require_once THEME_DIR . 'includes/swagger/swagger-page.php';
 
 // Endpoints
