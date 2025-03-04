@@ -27,6 +27,6 @@ function trinitykitcms_setup() {
 add_action('after_setup_theme', 'trinitykitcms_setup');
 
 
-
+// Configuração de logs para debug do tema
 ini_set('error_log', get_template_directory() . '/debug.log');
 
