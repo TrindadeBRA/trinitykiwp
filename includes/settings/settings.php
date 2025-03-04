@@ -6,14 +6,14 @@ function trinitykitcms_save_settings() {
         return new WP_Error('forbidden', 'Você não tem permissão para realizar esta ação.', array('status' => 403));
     }
 
-    // Lista de campos permitidos
+    // Lista de campos permitidos com os novos nomes
     $allowed_fields = array(
-        'whatsapp_url',
-        'frontend_app_url',
-        'github_user',
-        'github_repo',
-        'github_token',
-        'google_analytics_id'
+        'trinitykitcms_whatsapp_url',
+        'trinitykitcms_frontend_app_url',
+        'trinitykitcms_github_user',
+        'trinitykitcms_github_repo',
+        'trinitykitcms_github_token',
+        'trinitykitcms_google_analytics_id'
     );
 
     // Processa cada campo
@@ -22,7 +22,7 @@ function trinitykitcms_save_settings() {
             $value = sanitize_text_field($_POST[$field]);
             
             // Validação específica para URLs
-            if ($field === 'whatsapp_url' || $field === 'frontend_app_url') {
+            if ($field === 'trinitykitcms_whatsapp_url' || $field === 'trinitykitcms_frontend_app_url') {
                 if (!empty($value) && !filter_var($value, FILTER_VALIDATE_URL)) {
                     return new WP_Error(
                         'invalid_url',
@@ -32,8 +32,8 @@ function trinitykitcms_save_settings() {
                 }
             }
             
-            // Salva a configuração
-            set_theme_mod($field, $value);
+            // Salva a configuração usando update_option em vez de set_theme_mod
+            update_option($field, $value);
         }
     }
 

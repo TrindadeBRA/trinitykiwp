@@ -18,14 +18,14 @@ function trinitykitcms_get_page_configs($request) {
         return $api_validation;
     }
 
-    // Obtém as configurações diretamente
+    // Obtém as configurações diretamente usando os novos nomes
     $settings = array(
-        'whatsapp_url' => get_theme_mod('whatsapp_url', ''),
-        'frontend_app_url' => get_theme_mod('frontend_app_url', ''),
-        'github_user' => get_theme_mod('github_user', ''),
-        'github_repo' => get_theme_mod('github_repo', ''),
-        'github_token' => get_theme_mod('github_token', ''),
-        'google_analytics_id' => get_theme_mod('google_analytics_id', 'G-XXXXXXX'),
+        'whatsapp_url' => get_option('trinitykitcms_whatsapp_url', ''),
+        'frontend_app_url' => get_option('trinitykitcms_frontend_app_url', ''),
+        'github_user' => get_option('trinitykitcms_github_user', ''),
+        'github_repo' => get_option('trinitykitcms_github_repo', ''),
+        'github_token' => get_option('trinitykitcms_github_token', ''),
+        'google_analytics_id' => get_option('trinitykitcms_google_analytics_id', 'G-XXXXXXX'),
     );
 
     // Obtém informações do site
