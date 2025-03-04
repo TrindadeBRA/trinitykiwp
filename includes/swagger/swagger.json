@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-      "title": "CrawlerX WP API",
+      "title": "TrinityKitWP API",
       "description": "API para criar posts e fazer upload de imagens no WordPress",
       "version": "1.0.0"
     },

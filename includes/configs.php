@@ -13,10 +13,6 @@ if (!defined('ABSPATH')) {
     exit; // Evita acesso direto ao arquivo
 }
 
-// Definir constante do diretório do plugin
-define('TRINITYKITCMS_PLUGIN_DIR', plugin_dir_path(__FILE__));
-
-
 // Adicionar hook de ativação
 register_activation_hook(__FILE__, 'trinitykitcms_generate_api_key');
 
@@ -47,9 +43,17 @@ function trinitykitcms_render_admin_page()
     $api_base_url = site_url('/wp-json/trinitykitcms-api/v1/');
 ?>
     <div class="wrap">
-        <h1>TrinityKitCMS</h1>
-        <div style="margin-bottom: 20px;">
+        <h1 style="margin-bottom: 30px; font-size: 24px; font-weight: bold;">TrinityKitCMS</h1>
+        <div style="margin-bottom: 50px;">
+            <h2>Documentação da API</h2>
+            <p>Acesse a documentação da API para entender como usar as APIs do TrinityKitCMS.</p>
+            <a href="<?php echo esc_url($swagger_url); ?>" target="_blank" class="button button-secondary">
+                Abrir Documentação
+            </a>
+        </div>
+        <div style="margin-bottom: 50px;">
             <h2>API Key</h2>
+            <p>A API Key é necessária para autenticação das requisições à API feitas pelo frontend.</p>
             <p>Use a seguinte API Key para autenticação:</p>
             <input type="text" value="<?php echo esc_attr($api_key); ?>" readonly style="width: 100%; max-width: 400px;" />
             <button onclick="copyApiKey()" class="button button-primary">Copiar API Key</button>
@@ -57,31 +61,8 @@ function trinitykitcms_render_admin_page()
             <h3 style="margin-top: 20px;">URL Base da API:</h3>
             <input type="text" value="<?php echo esc_attr($api_base_url); ?>" readonly style="width: 100%; max-width: 400px;" />
             <button onclick="copyApiUrl()" class="button button-primary">Copiar URL da API</button>
-
-            <!-- <div style="margin-top: 30px; background: #f9f9f9; padding: 20px; border-radius: 5px; border: 1px solid #ddd;">
-                <h3>Configuração das Variáveis de Ambiente</h3>
-                <p>Para configurar sua aplicação principal, utilize as seguintes variáveis de ambiente:</p>
-                <pre style="background: #fff; padding: 15px; border: 1px solid #ddd; border-radius: 3px;">
-# API KEY TrinityKitCMS
-TRINITYKITCMS_API_KEY=<?php echo esc_html($api_key); ?>
-
-TRINITYKITCMS_API_URL=<?php echo esc_html($api_base_url); ?>
-                </pre>
-
-                <h4>Descrição das Variáveis:</h4>
-                <ul style="list-style-type: disc; margin-left: 20px;">
-                    <li><strong>TRINITYKITCMS_API_KEY:</strong> Chave de autenticação necessária para todas as requisições à API</li>
-                    <li><strong>TRINITYKITCMS_API_URL:</strong> URL base para todos os endpoints da API</li>
-                </ul>
-            </div> -->
-        </div>
-
-        <div style="margin-bottom: 20px;">
-            <h2>Documentação da API</h2>
-            <a href="<?php echo esc_url($swagger_url); ?>" target="_blank" class="button button-secondary">
-                Abrir Documentação
-            </a>
-        </div>
+        </div> 
+    </div>
 
         <script>
             function copyApiKey() {

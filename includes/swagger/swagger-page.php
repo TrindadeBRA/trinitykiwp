@@ -3,6 +3,42 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Adicionar a página do Swagger
+function trinitykitcms_add_swagger_page()
+{
+    if (isset($_GET['trinitykitcms_swagger_ui'])) {
+        // Verificar se o usuário está logado e tem capacidade de administrador
+        if (!current_user_can('manage_options')) {
+            wp_die('Acesso negado. Você precisa ter permissões de administrador para acessar esta página.', 'Acesso Negado', [
+                'response' => 403,
+                'back_link' => true,
+            ]);
+        }
+        require_once THEME_DIR . 'includes/swagger/swagger-page.php';
+        trinitykitcms_render_swagger_page();
+    }
+}
+add_action('init', 'trinitykitcms_add_swagger_page');
+
+// Adicionar rota para servir o arquivo swagger.json
+function trinitykitcms_serve_swagger_json()
+{
+    if (isset($_GET['trinitykitcms_swagger'])) {
+        // Verificar se o usuário está logado e tem capacidade de administrador
+        if (!current_user_can('manage_options')) {
+            wp_send_json([
+                'error' => 'Acesso negado',
+                'message' => 'Você precisa ter permissões de administrador para acessar este recurso.'
+            ], 403);
+        }
+        header('Content-Type: application/json');
+        echo file_get_contents(THEME_DIR . 'includes/swagger/swagger.json');
+        exit;
+    }
+}
+add_action('init', 'trinitykitcms_serve_swagger_json');
+
+
 function trinitykitcms_render_swagger_page()
 {
 ?>
