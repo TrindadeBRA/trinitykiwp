@@ -15,24 +15,29 @@ function trinitykitcms_get_page_configs($request) {
     // Valida a API key
     $api_validation = trinitykitcms_validate_api_key($request);
     if (is_wp_error($api_validation)) {
-        return $api_validation; // Retorna o erro se a validação falhar
+        return $api_validation;
     }
 
-    // Obtém as configurações
-    $settings = trinitykitcms_get_settings();
-    
-    
-
-
-    // Remove campos sensíveis/desnecessários
-    unset($settings['github_token'], $settings['frontend_app_url']);
+    // Obtém as configurações diretamente
+    $settings = array(
+        'whatsapp_url' => get_theme_mod('whatsapp_url', ''),
+        'frontend_app_url' => get_theme_mod('frontend_app_url', ''),
+        'github_user' => get_theme_mod('github_user', ''),
+        'github_repo' => get_theme_mod('github_repo', ''),
+        'github_token' => get_theme_mod('github_token', ''),
+        'google_analytics_id' => get_theme_mod('google_analytics_id', 'G-XXXXXXX'),
+    );
 
     // Obtém informações do site
     $site_configs = array(
         'site_name' => get_bloginfo('name'),
         'site_description' => get_bloginfo('description'),
         'whatsapp_url' => $settings['whatsapp_url'],
-        'google_analytics_id' => $settings['google_analytics_id']
+        'google_analytics_id' => $settings['google_analytics_id'],
+        'github_user' => $settings['github_user'],
+        'github_repo' => $settings['github_repo'],
+        'github_token' => $settings['github_token'],
+        'frontend_app_url' => $settings['frontend_app_url'],
     );
 
     return array(

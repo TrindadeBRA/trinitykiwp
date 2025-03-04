@@ -59,3 +59,24 @@ function trinitykitcms_get_settings() {
         'google_analytics_id' => get_theme_mod('google_analytics_id', 'G-XXXXXXX')
     );
 }
+
+// Registrar endpoints da API
+function trinitykitcms_register_settings_endpoints() {
+    register_rest_route('trinitykitcms-api/v1', '/settings', array(
+        array(
+            'methods' => 'POST',
+            'callback' => 'trinitykitcms_save_settings',
+            'permission_callback' => function () {
+                return current_user_can('manage_options');
+            }
+        ),
+        array(
+            'methods' => 'GET',
+            'callback' => 'trinitykitcms_get_settings',
+            'permission_callback' => function () {
+                return current_user_can('manage_options');
+            }
+        )
+    ));
+}
+add_action('rest_api_init', 'trinitykitcms_register_settings_endpoints');
