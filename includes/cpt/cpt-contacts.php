@@ -52,85 +52,6 @@ function register_contact_form_post_type() {
 }
 add_action( 'init', 'register_contact_form_post_type' );
 
-/**
- * Registers a custom REST API route to handle the submission of contact forms.
- *
- * This function registers a custom REST API route to handle the submission of contact forms.
- * The route accepts POST requests and triggers the 'contact_form_submit' callback function.
- *
- * @since 1.0.0
- */
-add_action( 'rest_api_init', function () {
-    $frontend_app_url = get_theme_mod('frontend_app_url');
-
-    register_rest_route( 'trinitykit/v1', '/contact-form/submit', array(
-        'methods'  => 'POST',
-        'callback' => 'contact_form_submit',
-        'permission_callback' => function () use ($frontend_app_url) {
-            return true; // Permite todas as requisições por enquanto
-        }
-    ));
-});
-
-/**
- * Callback function to handle the submission of contact forms.
- *
- * This function is called when the custom REST API route for submitting contact forms is accessed via a POST request.
- * It extracts parameters from the request, creates a new contact form post, and updates custom fields for the form.
- * It returns a JSON response indicating success or failure.
- *
- * @since 1.0.0
- *
- * @param WP_REST_Request $request The REST API request object.
- * @return WP_REST_Response|WP_Error A response object indicating success or failure.
- */
-function contact_form_submit($request) {
-    $params = $request->get_params();
-
-    // Extract parameters from the request
-    $name = isset($params['name']) ? sanitize_text_field($params['name']) : '';
-    $email = isset($params['email']) ? sanitize_email($params['email']) : '';
-    $message = isset($params['message']) ? sanitize_textarea_field($params['message']) : '';
-    $tag = isset($params['tag']) ? sanitize_text_field($params['tag']) : '';
-
-    if (empty($name)) {
-        return new WP_Error('invalid_name_data', __('Name field cannot be empty'), array('status' => 400));
-    }
-    
-    if (empty($email) || !is_email($email)) {
-        return new WP_Error('invalid_email_data', __('Invalid email address'), array('status' => 400));
-    }
-    
-    if (empty($message)) {
-        return new WP_Error('invalid_message_data', __('Message field cannot be empty'), array('status' => 400));
-    }
-
-    // Define post title
-    $post_title = $name . ' - ' . $email;
-
-    // Create the post
-    $post_id = wp_insert_post(array(
-        'post_title'   => $post_title,
-        'post_content' => $message,
-        'post_status'  => 'publish',
-        'post_type'    => 'contact_form',
-    ));
-
-    // Update custom fields for the contact form
-    update_field( 'email', $email, $post_id );
-    update_field( 'name', $name, $post_id );
-
-    // Add tag to the post
-    wp_set_post_tags( $post_id, $tag, true );
-
-    // Return success or failure response
-    if ($post_id) {
-        return new WP_REST_Response(array('success' => true), 200);
-    } else {
-        return new WP_Error('submission_failed', __('Failed to submit form'), array('status' => 500));
-    }
-}
-
 function contact_form_columns( $columns ) {
     $columns['name'] = 'Nome';
     $columns['email'] = 'Email';
@@ -157,17 +78,6 @@ function contact_form_column_content( $column, $post_id ) {
     }
 }
 add_action( 'manage_contact_form_posts_custom_column', 'contact_form_column_content', 10, 2 );
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * Adiciona funcionalidade de exportação para o Custom Post Type "Contact Form"

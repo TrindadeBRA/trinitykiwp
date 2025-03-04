@@ -405,6 +405,160 @@
             }
           }
         }
+      },
+      "/contact-form/submit": {
+        "post": {
+          "summary": "Enviar formulário de contato",
+          "description": "Cria um novo registro de contato no WordPress",
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["name", "email", "message"],
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Nome do contato",
+                      "example": "João Silva"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "description": "Email do contato",
+                      "example": "joao@exemplo.com"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem do contato",
+                      "example": "Gostaria de mais informações sobre seus produtos."
+                    },
+                    "tag": {
+                      "type": "string",
+                      "description": "Tag opcional para categorizar o contato",
+                      "example": "orçamento"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Formulário enviado com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Formulário enviado com sucesso"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Erro de validação",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "example": "invalid_name_data"
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Nome não pode estar vazio"
+                      },
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "integer",
+                            "example": 400
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Erro de autenticação",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "example": "invalid_api_key"
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "API Key inválida ou não fornecida"
+                      },
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "integer",
+                            "example": 401
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "example": "submission_failed"
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Falha ao enviar formulário"
+                      },
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "integer",
+                            "example": 500
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "components": {
