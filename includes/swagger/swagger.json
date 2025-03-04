@@ -564,6 +564,76 @@
             }
           }
         }
+      },
+      "/post-slugs": {
+        "get": {
+          "summary": "Listar todos os slugs dos posts",
+          "description": "Retorna uma lista de todos os slugs dos posts publicados.",
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de slugs obtida com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "data": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "slug": {
+                              "type": "string",
+                              "description": "Slug do post"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Erro de autenticação",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "example": "invalid_api_key"
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "API Key inválida ou não fornecida"
+                      },
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "integer",
+                            "example": 401
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "components": {
