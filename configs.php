@@ -20,7 +20,7 @@ function trinitykitcms_add_admin_menu()
         'trinitykitcms',
         'trinitykitcms_render_admin_page',
         'dashicons-store',
-        00
+        -1
     );
 }
 add_action('admin_menu', 'trinitykitcms_add_admin_menu');

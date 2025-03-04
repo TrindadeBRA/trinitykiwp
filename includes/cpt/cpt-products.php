@@ -31,7 +31,7 @@ function register_products_post_type() {
         'capability_type'     => 'post',
         'hierarchical'        => false,
         'supports'            => array('title', 'excerpt'),
-        'menu_position'       => 01,
+        'menu_position'       => -1,
         'menu_icon'           => 'dashicons-feedback',
         'show_in_rest'        => true
     );

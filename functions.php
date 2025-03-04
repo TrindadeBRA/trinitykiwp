@@ -8,13 +8,13 @@ require_once THEME_DIR . 'configs.php';
 require_once THEME_DIR . 'includes/apikey.php';
 require_once THEME_DIR . 'includes/settings.php';
 require_once THEME_DIR . 'includes/cpt/cpt-products.php';
+require_once THEME_DIR . 'includes/cpt/cpt-contacts.php';
 require_once THEME_DIR . 'includes/scf/scf-segments.php';
 require_once THEME_DIR . 'includes/scf/scf-products.php';
 require_once THEME_DIR . 'includes/swagger/swagger-page.php';
 require_once THEME_DIR . 'endpoints/api-configs.php';
 require_once THEME_DIR . 'endpoints/api-products.php';
 require_once THEME_DIR . 'endpoints/api-segment.php';
-
 // Impede acesso direto ao arquivo
 if (!defined('ABSPATH')) {
     exit;
