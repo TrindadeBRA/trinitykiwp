@@ -7,9 +7,11 @@ define('THEME_DIR', plugin_dir_path(__FILE__));
 require_once THEME_DIR . 'configs.php';
 require_once THEME_DIR . 'includes/apikey.php';
 require_once THEME_DIR . 'includes/settings.php';
+require_once THEME_DIR . 'includes/cpt/cpt-products.php';
+require_once THEME_DIR . 'includes/scf/scf-segments.php';
+require_once THEME_DIR . 'includes/scf/scf-products.php';
 require_once THEME_DIR . 'includes/swagger/swagger-page.php';
 require_once THEME_DIR . 'endpoints/api-configs.php';
-
 // Impede acesso direto ao arquivo
 if (!defined('ABSPATH')) {
     exit;
@@ -48,3 +50,10 @@ function secure_custom_fields_warning() {
             <p><strong>Warning:</strong> The <em>Secure Custom Fields</em> plugin is required for the full functionality of this theme. Please <a href="/wp-admin/plugin-install.php?s=Secure%2520Custom%2520Fields&tab=search&type=term" target="_blank">install and activate the plugin</a>.</p>
           </div>';
 }
+
+// Desabilita o Gutenberg e força o uso do editor clássico
+function disable_gutenberg_editor() {
+    return false;
+}
+add_filter('use_block_editor_for_post', 'disable_gutenberg_editor', 10);
+add_filter('use_block_editor_for_post_type', 'disable_gutenberg_editor', 10);
