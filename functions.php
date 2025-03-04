@@ -4,10 +4,10 @@
 define('THEME_DIR', plugin_dir_path(__FILE__));
 
 // Incluir arquivos necessários
-require_once THEME_DIR . 'includes/configs.php';
-require_once THEME_DIR . 'includes/apikey/apikey.php';
+require_once THEME_DIR . 'configs.php';
+require_once THEME_DIR . 'includes/apikey.php';
+require_once THEME_DIR . 'includes/settings.php';
 require_once THEME_DIR . 'includes/swagger/swagger-page.php';
-require_once THEME_DIR . 'includes/settings/settings.php';
 require_once THEME_DIR . 'endpoints/api-configs.php';
 
 // Impede acesso direto ao arquivo
@@ -28,3 +28,23 @@ add_action('after_setup_theme', 'trinitykitcms_setup');
 // Configuração de logs para debug do tema
 ini_set('error_log', get_template_directory() . '/debug.log');
 
+
+// Verifica se o plugin Secure Custom Fields está ativo.
+add_action('admin_init', 'check_secure_custom_fields');
+function check_secure_custom_fields() {
+    if ( ! function_exists( 'is_plugin_active' ) ) {
+        include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+    }
+    
+    // Verifica se o plugin Secure Custom Fields está ativo.
+    // Altere o caminho para refletir a estrutura do plugin, se necessário.
+    if ( ! is_plugin_active( 'secure-custom-fields/secure-custom-fields.php' ) ) {
+        add_action( 'admin_notices', 'secure_custom_fields_warning' );
+    }
+}
+
+function secure_custom_fields_warning() {
+    echo '<div class="notice notice-error">
+            <p><strong>Warning:</strong> The <em>Secure Custom Fields</em> plugin is required for the full functionality of this theme. Please <a href="/wp-admin/plugin-install.php?s=Secure%2520Custom%2520Fields&tab=search&type=term" target="_blank">install and activate the plugin</a>.</p>
+          </div>';
+}
