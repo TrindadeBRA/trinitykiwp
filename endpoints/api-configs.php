@@ -5,12 +5,6 @@ if (!defined('ABSPATH')) {
     exit; // Sai se acessado diretamente
 }
 
-/**
- * Obtém as configurações da página.
- *
- * @param WP_REST_Request $request A requisição da API.
- * @return array|WP_Error As configurações do site ou um erro.
- */
 function trinitykitcms_get_page_configs($request) {
     // Valida a API key
     $api_validation = trinitykitcms_validate_api_key($request);
@@ -54,7 +48,7 @@ function trinitykitcms_register_page_config_endpoints() {
         array(
             'methods' => 'GET',
             'callback' => 'trinitykitcms_get_page_configs',
-            'permission_callback' => '__return_true' // Permite acesso público, mas requer API key
+            'permission_callback' => '__return_true'
         )
     ));
 }

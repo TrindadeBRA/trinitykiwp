@@ -1,26 +1,13 @@
 <?php
 
-/**
- * Plugin Name: TrinityKitCMS
- * Plugin URI: https://lucastrindade.dev
- * Description: O Plugin TrinityKitCMS integra o CrawlerX ao WordPress, permitindo a postagem automática de conteúdos gerados. Com ele, você recebe uma API Key exclusiva, um URL base e documentação completa com Swagger, facilitando o acesso e uso das APIs. Simplifique a gestão de conteúdo no seu site WordPress com esta integração prática e segura.
- * Version: 1.0.0
- * Author: Lucas Trindade
- * Author URI: https://lucastrindade.dev
- */
-
 if (!defined('ABSPATH')) {
     exit; // Evita acesso direto ao arquivo
 }
 
-// Incluir arquivos necessários
-// require_once THEME_DIR . 'includes/apikey/apikey.php';
-// require_once THEME_DIR . 'includes/settings/settings.php';
-
 // Adicionar hook de ativação
 register_activation_hook(__FILE__, 'trinitykitcms_generate_api_key');
 
-// Também adicionar uma chamada na inicialização do plugin
+// Adicionar chamada na inicialização do plugin
 add_action('init', 'trinitykitcms_generate_api_key');
 
 // Criar menu no admin
@@ -84,7 +71,7 @@ function trinitykitcms_render_admin_page()
                         <th scope="row">WhatsApp URL</th>
                         <td>
                             <input type="url" name="trinitykitcms_whatsapp_url" value="<?php echo esc_attr(get_option('trinitykitcms_whatsapp_url')); ?>" class="regular-text">
-                            <p class="description">Entre com a URL do WhatsApp. Esta URL vai ser inserida no botão "Contato →" no menu do frontend.</p>
+                            <p class="description">Entre com a URL do WhatsApp.</p>
                         </td>
                     </tr>
                     

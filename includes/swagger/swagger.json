@@ -51,6 +51,18 @@
                           "google_analytics_id": {
                             "type": "string",
                             "description": "ID do Google Analytics"
+                          },
+                          "frontend_app_url": {
+                            "type": "string",
+                            "description": "URL do aplicativo frontend"
+                          },
+                          "github_user": {
+                            "type": "string",
+                            "description": "Usuário do GitHub"
+                          },
+                          "github_repo": {
+                            "type": "string",
+                            "description": "Repositório do GitHub"
                           }
                         }
                       }
