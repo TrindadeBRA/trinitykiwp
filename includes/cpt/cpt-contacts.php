@@ -11,7 +11,7 @@ function register_contact_form_post_type() {
     $labels = array(
         'name'                  => _x( 'Formulários de Contato', 'Nome do tipo de post' ),
         'singular_name'         => _x( 'Formulário de Contato', 'Nome singular do tipo de post' ),
-        'menu_name'             => _x( 'Form. de Contato', 'Nome do menu' ),
+        'menu_name'             => _x( 'Contatos', 'Nome do menu' ),
         'add_new'               => _x( 'Adicionar Novo', 'Novo item' ),
         'add_new_item'          => __( 'Adicionar Novo Formulário de Contato' ),
         'edit_item'             => __( 'Editar Formulário de Contato' ),
