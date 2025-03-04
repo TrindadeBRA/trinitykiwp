@@ -14,8 +14,8 @@ if (!defined('ABSPATH')) {
 }
 
 // Incluir arquivos necessários
-require_once THEME_DIR . 'includes/apikey/apikey.php';
-require_once THEME_DIR . 'includes/settings/settings.php';
+// require_once THEME_DIR . 'includes/apikey/apikey.php';
+// require_once THEME_DIR . 'includes/settings/settings.php';
 
 // Adicionar hook de ativação
 register_activation_hook(__FILE__, 'trinitykitcms_generate_api_key');

@@ -5,11 +5,10 @@ define('THEME_DIR', plugin_dir_path(__FILE__));
 
 // // Incluir arquivos necessários
 require_once THEME_DIR . 'includes/configs.php';
+require_once THEME_DIR . 'includes/apikey/apikey.php';
 require_once THEME_DIR . 'includes/swagger/swagger-page.php';
+require_once THEME_DIR . 'includes/settings/settings.php';
 require_once THEME_DIR . 'endpoints/api-configs.php';
-// require_once THEME_DIR . 'includes/api.php';
-// require_once THEME_DIR . 'includes/helpers.php';
-// require_once THEME_DIR . 'includes/swagger-page.php';
 
 
 // Impede acesso direto ao arquivo
