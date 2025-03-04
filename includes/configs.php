@@ -13,6 +13,9 @@ if (!defined('ABSPATH')) {
     exit; // Evita acesso direto ao arquivo
 }
 
+// Incluir arquivos necessários
+require_once THEME_DIR . 'includes/apikey/apikey.php';
+
 // Adicionar hook de ativação
 register_activation_hook(__FILE__, 'trinitykitcms_generate_api_key');
 
@@ -44,6 +47,8 @@ function trinitykitcms_render_admin_page()
 ?>
     <div class="wrap">
         <h1 style="margin-bottom: 30px; font-size: 24px; font-weight: bold;">TrinityKitCMS</h1>
+
+        <!-- Bloco de documentação da API -->
         <div style="margin-bottom: 50px;">
             <h2>Documentação da API</h2>
             <p>Acesse a documentação da API para entender como usar as APIs do TrinityKitCMS.</p>
@@ -51,6 +56,8 @@ function trinitykitcms_render_admin_page()
                 Abrir Documentação
             </a>
         </div>
+
+        <!-- Bloco de configuração da API Key -->
         <div style="margin-bottom: 50px;">
             <h2>API Key</h2>
             <p>A API Key é necessária para autenticação das requisições à API feitas pelo frontend.</p>
@@ -61,94 +68,97 @@ function trinitykitcms_render_admin_page()
             <h3 style="margin-top: 20px;">URL Base da API:</h3>
             <input type="text" value="<?php echo esc_attr($api_base_url); ?>" readonly style="width: 100%; max-width: 400px;" />
             <button onclick="copyApiUrl()" class="button button-primary">Copiar URL da API</button>
-        </div> 
+        </div>
+
+        <!-- Novo bloco de configurações -->
+        <div style="margin-bottom: 50px;">
+            <h2>Configurações do Site</h2>
+            <form method="post" action="options.php">
+                <?php
+                settings_fields('trinitykitcms_settings');
+                ?>
+                
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">WhatsApp URL</th>
+                        <td>
+                            <input type="url" name="whatsapp_url" value="<?php echo esc_attr(get_theme_mod('whatsapp_url')); ?>" class="regular-text">
+                            <p class="description">Entre com a URL do WhatsApp. Esta URL vai ser inserida no botão "Contato →" no menu do frontend.</p>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <th scope="row">Frontend URL</th>
+                        <td>
+                            <input type="url" name="frontend_app_url" value="<?php echo esc_attr(get_theme_mod('frontend_app_url')); ?>" class="regular-text">
+                            <p class="description">URL da aplicação frontend. Esta URL vai ser usada para o SEO do frontend e para permitir as requisições do tipo POST apenas deste dominio.</p>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <th scope="row">Github User</th>
+                        <td>
+                            <input type="text" name="github_user" value="<?php echo esc_attr(get_theme_mod('github_user')); ?>" class="regular-text">
+                            <p class="description">Seu usuário do Github. Este campo é utilizado para o CI/CD do projeto.</p>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <th scope="row">Github Repo Name</th>
+                        <td>
+                            <input type="text" name="github_repo" value="<?php echo esc_attr(get_theme_mod('github_repo')); ?>" class="regular-text">
+                            <p class="description">Slug do nome do projeto no repositório do GitHub. Este campo é utilizado para o CI/CD do projeto.</p>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <th scope="row">Github Token</th>
+                        <td>
+                            <input type="password" name="github_token" value="<?php echo esc_attr(get_theme_mod('github_token')); ?>" class="regular-text">
+                            <p class="description">Token pessoal de acesso ao github. Pode ser gerado em: https://github.com/settings/tokens. Este campo é utilizado para o CI/CD do projeto.</p>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <th scope="row">Google Analytics ID</th>
+                        <td>
+                            <input type="text" name="google_analytics_id" value="<?php echo esc_attr(get_theme_mod('google_analytics_id', 'G-XXXXXXX')); ?>" class="regular-text">
+                            <p class="description">Entre com o seu Google Analytics ID. Ex. G-XXXXXXX.</p>
+                        </td>
+                    </tr>
+                </table>
+                
+                <?php submit_button('Salvar Configurações'); ?>
+            </form>
+        </div>
     </div>
 
-        <script>
-            function copyApiKey() {
-                var copyText = document.querySelectorAll('input')[0];
-                copyText.select();
-                document.execCommand("copy");
-                alert("API Key copiada!");
-            }
+    <script>
+        function copyApiKey() {
+            var copyText = document.querySelectorAll('input')[0];
+            copyText.select();
+            document.execCommand("copy");
+            alert("API Key copiada!");
+        }
 
-            function copyApiUrl() {
-                var copyText = document.querySelectorAll('input')[1];
-                copyText.select();
-                document.execCommand("copy");
-                alert("URL da API copiada!");
-            }
-        </script>
-    </div>
+        function copyApiUrl() {
+            var copyText = document.querySelectorAll('input')[1];
+            copyText.select();
+            document.execCommand("copy");
+            alert("URL da API copiada!");
+        }
+    </script>
 <?php
 }
 
-class TrinityKitCMS_API_Security
-{
-    private static $instance = null;
-
-    public static function get_instance()
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
-
-    public function validate_api_key($request)
-    {
-        // Verifica múltiplos locais para a API key
-        $api_key = $this->get_api_key_from_request($request);
-
-        if (empty($api_key)) {
-            return new WP_Error(
-                'api_key_missing',
-                'API Key não fornecida',
-                array('status' => 401)
-            );
-        }
-
-        $stored_key = get_option('trinitykitcms_api_key');
-
-        if (empty($stored_key)) {
-            return new WP_Error(
-                'api_key_not_configured',
-                'API Key não configurada no sistema',
-                array('status' => 500)
-            );
-        }
-
-        if (!hash_equals($stored_key, $api_key)) {
-            return new WP_Error(
-                'invalid_api_key',
-                'API Key inválida',
-                array('status' => 401)
-            );
-        }
-
-        return true;
-    }
-
-    private function get_api_key_from_request($request)
-    {
-        // Tenta obter do cabeçalho X-API-Key
-        $api_key = $request->get_header('X-API-Key');
-
-        // Se não encontrar no cabeçalho, tenta nos parâmetros
-        if (empty($api_key)) {
-            $api_key = $request->get_param('api_key');
-        }
-
-        return $api_key;
-    }
+// Registrar as configurações
+function trinitykitcms_register_settings() {
+    register_setting('trinitykitcms_settings', 'whatsapp_url');
+    register_setting('trinitykitcms_settings', 'frontend_app_url');
+    register_setting('trinitykitcms_settings', 'github_user');
+    register_setting('trinitykitcms_settings', 'github_repo');
+    register_setting('trinitykitcms_settings', 'github_token');
+    register_setting('trinitykitcms_settings', 'google_analytics_id');
 }
+add_action('admin_init', 'trinitykitcms_register_settings');
 
-// Criar a função para gerar a chave API
-function trinitykitcms_generate_api_key() {
-    $existing_key = get_option('trinitykitcms_api_key', '');
-    
-    if (empty($existing_key)) {
-        $api_key = bin2hex(random_bytes(16));
-        update_option('trinitykitcms_api_key', $api_key);
-    }
-}

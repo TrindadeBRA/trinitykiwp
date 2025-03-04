@@ -12,178 +12,45 @@
       }
     ],
     "paths": {
-      "/create-post": {
-        "post": {
-          "summary": "Criar novo post",
-          "description": "Cria um novo post no WordPress",
+      "/configs": {
+        "get": {
+          "summary": "Obter configurações do site",
+          "description": "Retorna as configurações básicas do site WordPress",
           "security": [
             {
               "ApiKeyAuth": []
             }
           ],
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "title": {
-                      "type": "string",
-                      "description": "Título do post"
-                    },
-                    "content": {
-                      "type": "string",
-                      "description": "Conteúdo do post"
-                    },
-                    "excerpt": {
-                      "type": "string",
-                      "description": "Resumo do post"
-                    }
-                  },
-                  "required": ["title", "content", "excerpt"]
-                }
-              }
-            }
-          },
           "responses": {
             "200": {
-              "description": "Post criado com sucesso",
+              "description": "Configurações obtidas com sucesso",
               "content": {
                 "application/json": {
                   "schema": {
                     "type": "object",
                     "properties": {
-                      "wp_post_id": {
-                        "type": "integer",
-                        "description": "ID do post no WordPress"
-                      },
-                      "wp_slug": {
-                        "type": "string",
-                        "description": "Slug do post no WordPress"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Erro de validação",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "code": {
-                        "type": "string",
-                        "example": "missing_fields"
-                      },
-                      "message": {
-                        "type": "string",
-                        "example": "Título, conteúdo e resumo são obrigatórios."
+                      "success": {
+                        "type": "boolean",
+                        "example": true
                       },
                       "data": {
                         "type": "object",
                         "properties": {
-                          "status": {
-                            "type": "integer",
-                            "example": 400
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/upload-image": {
-        "post": {
-          "summary": "Upload Image",
-          "description": "Upload an image and set it as featured image for a post",
-          "security": [
-            {
-              "ApiKeyAuth": []
-            }
-          ],
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "post_id": {
-                      "type": "integer",
-                      "description": "Post ID"
-                    },
-                    "image_base64": {
-                      "type": "string",
-                      "description": "Base64 encoded image"
-                    },
-                    "title": {
-                      "type": "string",
-                      "description": "Image title"
-                    },
-                    "cover_image_url": {
-                      "type": "string",
-                      "description": "URL of the image to be used as watermark (optional)",
-                      "required": false
-                    }
-                  },
-                  "required": ["post_id", "image_base64", "title"]
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "Imagem enviada com sucesso",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "wp_image_id": {
-                        "type": "integer",
-                        "description": "ID da imagem no WordPress"
-                      },
-                      "wp_image_url": {
-                        "type": "string",
-                        "description": "URL da imagem no WordPress"
-                      },
-                      "wp_post_id": {
-                        "type": "integer",
-                        "description": "ID do post no WordPress"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Erro de validação",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "code": {
-                        "type": "string",
-                        "example": "invalid_post"
-                      },
-                      "message": {
-                        "type": "string",
-                        "example": "Post ID inválido."
-                      },
-                      "data": {
-                        "type": "object",
-                        "properties": {
-                          "status": {
-                            "type": "integer",
-                            "example": 400
+                          "site_name": {
+                            "type": "string",
+                            "description": "Nome do site WordPress"
+                          },
+                          "site_description": {
+                            "type": "string",
+                            "description": "Descrição do site WordPress"
+                          },
+                          "whatsapp_url": {
+                            "type": "string",
+                            "description": "URL do WhatsApp para contato"
+                          },
+                          "google_analytics_id": {
+                            "type": "string",
+                            "description": "ID do Google Analytics"
                           }
                         }
                       }
@@ -192,8 +59,8 @@
                 }
               }
             },
-            "500": {
-              "description": "Erro interno do servidor",
+            "401": {
+              "description": "Erro de autenticação",
               "content": {
                 "application/json": {
                   "schema": {
@@ -201,18 +68,18 @@
                     "properties": {
                       "code": {
                         "type": "string",
-                        "example": "upload_failed"
+                        "example": "invalid_api_key"
                       },
                       "message": {
                         "type": "string",
-                        "example": "Falha ao processar a imagem."
+                        "example": "API Key inválida ou não fornecida"
                       },
                       "data": {
                         "type": "object",
                         "properties": {
                           "status": {
                             "type": "integer",
-                            "example": 500
+                            "example": 401
                           }
                         }
                       }
