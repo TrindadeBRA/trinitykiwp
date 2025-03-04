@@ -13,6 +13,7 @@ require_once THEME_DIR . 'includes/scf/scf-products.php';
 require_once THEME_DIR . 'includes/swagger/swagger-page.php';
 require_once THEME_DIR . 'endpoints/api-configs.php';
 require_once THEME_DIR . 'endpoints/api-products.php';
+require_once THEME_DIR . 'endpoints/api-segment.php';
 
 // Impede acesso direto ao arquivo
 if (!defined('ABSPATH')) {
