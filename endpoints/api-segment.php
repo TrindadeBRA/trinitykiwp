@@ -53,6 +53,10 @@ function trinitykitcms_get_products_by_segment($request) {
         $organized_products[$main_category->term_id] = array(
             'name' => $main_category->name,
             'slug' => $main_category->slug,
+            'description' => term_description($main_category->term_id, 'product_lines'),
+            'images' => array_map(function($image) {
+                return $image['url'];
+            }, get_field('product_line_banner', 'product_lines_' . $main_category->term_id) ?: []),
             'categories' => array()
         );
 

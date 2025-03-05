@@ -285,6 +285,18 @@
                               "type": "string",
                               "description": "Slug da linha de produto principal"
                             },
+                            "description": {
+                              "type": "string",
+                              "description": "Descrição da linha de produto principal"
+                            },
+                            "images": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "description": "URL da imagem no tamanho original"
+                              },
+                              "description": "URLs das imagens obrigatórias"
+                            },
                             "categories": {
                               "type": "array",
                               "items": {

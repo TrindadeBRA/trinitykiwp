@@ -8,8 +8,8 @@ if ( function_exists('acf_add_local_field_group') ) {
         'fields' => array(
             array(
                 'key'         => 'field_imagens_obrigatorias',
-                'label'       => 'Imagens Obrigatórias',
-                'name'        => 'imagens_obrigatorias',
+                'label'       => 'Selecione 5 imagens obrigatórias para o banner da Linha de Produtos',
+                'name'        => 'product_line_banner',
                 'type'        => 'gallery',
                 'instructions'=> 'Para os itens "Linhas de Produtos", cadastre 5 imagens obrigatórias.',
             ),
