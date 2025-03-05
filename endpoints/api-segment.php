@@ -39,46 +39,82 @@ function trinitykitcms_get_products_by_segment($request) {
     );
 
     $products = get_posts($args);
-    $formatted_products = array();
+    $organized_products = array();
 
+    // Primeiro, vamos buscar todas as categorias principais
+    $main_categories = get_terms(array(
+        'taxonomy' => 'product_lines',
+        'parent' => 0,
+        'hide_empty' => true
+    ));
+
+    // Organizar a estrutura base
+    foreach ($main_categories as $main_category) {
+        $organized_products[$main_category->term_id] = array(
+            'name' => $main_category->name,
+            'slug' => $main_category->slug,
+            'categories' => array()
+        );
+
+        // Buscar subcategorias
+        $categories = get_terms(array(
+            'taxonomy' => 'product_lines',
+            'parent' => $main_category->term_id,
+            'hide_empty' => true
+        ));
+
+        foreach ($categories as $subcategory) {
+            $organized_products[$main_category->term_id]['categories'][$subcategory->term_id] = array(
+                'name' => $subcategory->name,
+                'slug' => $subcategory->slug,
+                'products' => array()
+            );
+        }
+    }
+
+    // Agora distribuir os produtos
     foreach ($products as $product) {
-        // Obtém as taxonomias
-        $segments = wp_get_post_terms($product->ID, 'segments', array('fields' => 'all'));
-        $product_lines = wp_get_post_terms($product->ID, 'product_lines', array('fields' => 'all'));
+        $product_lines = wp_get_post_terms($product->ID, 'product_lines', array(
+            'fields' => 'all'
+        ));
 
-        // Obtém os campos ACF
-        $cas_number = get_field('cas_number', $product->ID);
-
-        $formatted_products[] = array(
+        $product_data = array(
             'id' => $product->ID,
             'title' => $product->post_title,
-            'cas_number' => $cas_number,
-            'segments' => array_map(function($segment) {
-                return array(
-                    'id' => $segment->term_id,
-                    'name' => $segment->name,
-                    'slug' => $segment->slug
-                );
-            }, $segments),
-            'product_lines' => array_map(function($line) {
-                return array(
-                    'id' => $line->term_id,
-                    'name' => $line->name,
-                    'slug' => $line->slug
-                );
-            }, $product_lines)
+            'cas_number' => get_field('cas_number', $product->ID)
         );
+
+        foreach ($product_lines as $line) {
+            if ($line->parent > 0) { // É uma subcategoria
+                $parent_id = $line->parent;
+                if (isset($organized_products[$parent_id])) {
+                    $organized_products[$parent_id]['categories'][$line->term_id]['products'][] = $product_data;
+                }
+            }
+        }
+    }
+
+    // Limpar categorias vazias e transformar em array
+    $final_products = array();
+    foreach ($organized_products as $category) {
+        if (!empty($category['categories'])) {
+            $categories = array();
+            foreach ($category['categories'] as $subcategory) {
+                if (!empty($subcategory['products'])) {
+                    $categories[] = $subcategory;
+                }
+            }
+            if (!empty($categories)) {
+                $category['categories'] = $categories;
+                $final_products[] = $category;
+            }
+        }
     }
 
     return array(
         'success' => true,
-        'data' => $formatted_products,
-        'items' => count($formatted_products),
-        'segment' => array(
-            'id' => $segment->term_id,
-            'name' => $segment->name,
-            'slug' => $segment->slug
-        )
+        'data' => $final_products,
+        'items' => count($products)
     );
 }
 

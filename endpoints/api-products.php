@@ -29,24 +29,41 @@ function trinitykitcms_get_products($request) {
         // Obtém os campos ACF
         $cas_number = get_field('cas_number', $product->ID);
 
+        // Função auxiliar para formatar taxonomia com hierarquia
+        $format_taxonomy_with_hierarchy = function($terms) {
+            $formatted_terms = array();
+            $terms_by_id = array();
+            
+            // Primeiro, organiza todos os termos por ID
+            foreach ($terms as $term) {
+                $terms_by_id[$term->term_id] = array(
+                    'id' => $term->term_id,
+                    'name' => $term->name,
+                    'slug' => $term->slug,
+                    'children' => array()
+                );
+            }
+            
+            // Depois, organiza a hierarquia
+            foreach ($terms as $term) {
+                if ($term->parent == 0) {
+                    // É um termo raiz
+                    $formatted_terms[] = &$terms_by_id[$term->term_id];
+                } else {
+                    // É um termo filho
+                    $terms_by_id[$term->parent]['children'][] = &$terms_by_id[$term->term_id];
+                }
+            }
+            
+            return $formatted_terms;
+        };
+
         $formatted_products[] = array(
             'id' => $product->ID,
             'title' => $product->post_title,
             'cas_number' => $cas_number,
-            'segments' => array_map(function($segment) {
-                return array(
-                    'id' => $segment->term_id,
-                    'name' => $segment->name,
-                    'slug' => $segment->slug
-                );
-            }, $segments),
-            'product_lines' => array_map(function($line) {
-                return array(
-                    'id' => $line->term_id,
-                    'name' => $line->name,
-                    'slug' => $line->slug
-                );
-            }, $product_lines)
+            'segments' => $format_taxonomy_with_hierarchy($segments),
+            'product_lines' => $format_taxonomy_with_hierarchy($product_lines)
         );
     }
 

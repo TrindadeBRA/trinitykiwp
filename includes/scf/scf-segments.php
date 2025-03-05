@@ -13,7 +13,6 @@ if ( function_exists('acf_add_local_field_group') ) {
                 'type'        => 'gallery',
                 'instructions'=> 'Para os itens "Linhas de Produtos", cadastre 5 imagens obrigatórias.',
             ),
-            // Você pode adicionar outros campos conforme necessário.
         ),
         'location' => array(
             array(
