@@ -5,6 +5,15 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+function decode_html_entities($data) {
+    if (is_array($data)) {
+        return array_map('decode_html_entities', $data);
+    } elseif (is_string($data)) {
+        return html_entity_decode($data);
+    }
+    return $data;
+}
+
 function trinitykitcms_get_products($request) {
     // Valida a API key
     $api_validation = trinitykitcms_validate_api_key($request);
@@ -60,10 +69,10 @@ function trinitykitcms_get_products($request) {
 
         $formatted_products[] = array(
             'id' => $product->ID,
-            'title' => $product->post_title,
-            'cas_number' => $cas_number,
-            'segments' => $format_taxonomy_with_hierarchy($segments),
-            'product_lines' => $format_taxonomy_with_hierarchy($product_lines)
+            'title' => decode_html_entities($product->post_title),
+            'cas_number' => decode_html_entities($cas_number),
+            'segments' => decode_html_entities($format_taxonomy_with_hierarchy($segments)),
+            'product_lines' => decode_html_entities($format_taxonomy_with_hierarchy($product_lines))
         );
     }
 
