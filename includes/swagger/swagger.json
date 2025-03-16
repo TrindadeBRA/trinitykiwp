@@ -1,98 +1,97 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "title": "TrinityKitWP API",
-      "description": "API para criar posts e fazer upload de imagens no WordPress",
-      "version": "1.0.0"
-    },
-    "servers": [
-      {
-        "url": "/wp-json/trinitykitcms-api/v1",
-        "description": "API TrinityKitCMS"
-      }
-    ],
-    "paths": {
-      "/configs": {
-        "get": {
-          "summary": "Obter configurações do site",
-          "description": "Retorna as configurações básicas do site WordPress",
-          "security": [
-            {
-              "ApiKeyAuth": []
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Configurações obtidas com sucesso",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "success": {
-                        "type": "boolean",
-                        "example": true
-                      },
-                      "data": {
-                        "type": "object",
-                        "properties": {
-                          "site_name": {
-                            "type": "string",
-                            "description": "Nome do site WordPress"
-                          },
-                          "site_description": {
-                            "type": "string",
-                            "description": "Descrição do site WordPress"
-                          },
-                          "whatsapp_url": {
-                            "type": "string",
-                            "description": "URL do WhatsApp para contato"
-                          },
-                          "google_analytics_id": {
-                            "type": "string",
-                            "description": "ID do Google Analytics"
-                          },
-                          "frontend_app_url": {
-                            "type": "string",
-                            "description": "URL do aplicativo frontend"
-                          },
-                          "github_user": {
-                            "type": "string",
-                            "description": "Usuário do GitHub"
-                          },
-                          "github_repo": {
-                            "type": "string",
-                            "description": "Repositório do GitHub"
-                          }
+  "openapi": "3.0.0",
+  "info": {
+    "title": "TrinityKitWP API",
+    "description": "API para criar posts e fazer upload de imagens no WordPress",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/wp-json/trinitykitcms-api/v1",
+      "description": "API TrinityKitCMS"
+    }
+  ],
+  "paths": {
+    "/configs": {
+      "get": {
+        "summary": "Obter configurações do site",
+        "description": "Retorna as configurações básicas do site WordPress",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Configurações obtidas com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "site_name": {
+                          "type": "string",
+                          "description": "Nome do site WordPress"
+                        },
+                        "site_description": {
+                          "type": "string",
+                          "description": "Descrição do site WordPress"
+                        },
+                        "whatsapp_url": {
+                          "type": "string",
+                          "description": "URL do WhatsApp para contato"
+                        },
+                        "google_analytics_id": {
+                          "type": "string",
+                          "description": "ID do Google Analytics"
+                        },
+                        "frontend_app_url": {
+                          "type": "string",
+                          "description": "URL do aplicativo frontend"
+                        },
+                        "github_user": {
+                          "type": "string",
+                          "description": "Usuário do GitHub"
+                        },
+                        "github_repo": {
+                          "type": "string",
+                          "description": "Repositório do GitHub"
                         }
                       }
                     }
                   }
                 }
               }
-            },
-            "401": {
-              "description": "Erro de autenticação",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "code": {
-                        "type": "string",
-                        "example": "invalid_api_key"
-                      },
-                      "message": {
-                        "type": "string",
-                        "example": "API Key inválida ou não fornecida"
-                      },
-                      "data": {
-                        "type": "object",
-                        "properties": {
-                          "status": {
-                            "type": "integer",
-                            "example": 401
-                          }
+            }
+          },
+          "401": {
+            "description": "Erro de autenticação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_api_key"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "API Key inválida ou não fornecida"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "integer",
+                          "example": 401
                         }
                       }
                     }
@@ -102,94 +101,467 @@
             }
           }
         }
-      },
-      "/products": {
-        "get": {
-          "summary": "Listar todos os produtos",
-          "description": "Retorna uma lista de todos os produtos com suas taxonomias hierárquicas e campos personalizados",
-          "security": [
-            {
-              "ApiKeyAuth": []
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Lista de produtos obtida com sucesso",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "success": {
-                        "type": "boolean",
-                        "example": true
-                      },
-                      "data": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "integer",
-                              "description": "ID do produto"
-                            },
-                            "title": {
-                              "type": "string",
-                              "description": "Título do produto"
-                            },
-                            "cas_number": {
-                              "type": "string",
-                              "description": "Número CAS do produto"
-                            },
-                            "segments": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "id": {
-                                    "type": "integer",
-                                    "description": "ID do segmento"
-                                  },
-                                  "name": {
-                                    "type": "string",
-                                    "description": "Nome do segmento"
-                                  },
-                                  "slug": {
-                                    "type": "string",
-                                    "description": "Slug do segmento"
-                                  },
-                                  "children": {
-                                    "type": "array",
-                                    "description": "Segmentos filhos",
-                                    "items": {
-                                      "$ref": "#/components/schemas/TaxonomyTerm"
-                                    }
+      }
+    },
+    "/products": {
+      "get": {
+        "summary": "Listar todos os produtos",
+        "description": "Retorna uma lista de todos os produtos com suas taxonomias hierárquicas e campos personalizados",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de produtos obtida com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "description": "ID do produto"
+                          },
+                          "title": {
+                            "type": "string",
+                            "description": "Título do produto"
+                          },
+                          "cas_number": {
+                            "type": "string",
+                            "description": "Número CAS do produto"
+                          },
+                          "segments": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "integer",
+                                  "description": "ID do segmento"
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "description": "Nome do segmento"
+                                },
+                                "slug": {
+                                  "type": "string",
+                                  "description": "Slug do segmento"
+                                },
+                                "children": {
+                                  "type": "array",
+                                  "description": "Segmentos filhos",
+                                  "items": {
+                                    "$ref": "#/components/schemas/TaxonomyTerm"
                                   }
                                 }
                               }
+                            }
+                          },
+                          "product_lines": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "integer",
+                                  "description": "ID da linha de produto"
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "description": "Nome da linha de produto"
+                                },
+                                "slug": {
+                                  "type": "string",
+                                  "description": "Slug da linha de produto"
+                                },
+                                "children": {
+                                  "type": "array",
+                                  "description": "Linhas de produto filhas",
+                                  "items": {
+                                    "$ref": "#/components/schemas/TaxonomyTerm"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "items": {
+                      "type": "integer",
+                      "description": "Número total de produtos retornados",
+                      "example": 10
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Erro de autenticação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_api_key"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "API Key inválida ou não fornecida"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "integer",
+                          "example": 401
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contact-form/submit": {
+      "post": {
+        "summary": "Enviar formulário de contato",
+        "description": "Cria um novo registro de contato no WordPress",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "email",
+                  "message",
+                  "phone"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Nome do contato",
+                    "example": "Lucas Trindade"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Email do contato",
+                    "example": "trindade@thetrinityweb.com.br"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "description": "Telefone do contato",
+                    "example": "(11) 99999-9999"
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "Mensagem do contato",
+                    "example": "Gostaria de mais informações sobre seus produtos."
+                  },
+                  "tag": {
+                    "type": "string",
+                    "description": "Tag opcional para categorizar o contato",
+                    "example": "orçamento"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Formulário enviado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Formulário enviado com sucesso"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_name_data"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Nome não pode estar vazio"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "integer",
+                          "example": 400
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Erro de autenticação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_api_key"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "API Key inválida ou não fornecida"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "integer",
+                          "example": 401
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "submission_failed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Falha ao enviar formulário"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "integer",
+                          "example": 500
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post-slugs": {
+      "get": {
+        "summary": "Listar todos os slugs dos posts",
+        "description": "Retorna uma lista de todos os slugs dos posts publicados.",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de slugs obtida com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "slug": {
+                            "type": "string",
+                            "description": "Slug do post"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Erro de autenticação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_api_key"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "API Key inválida ou não fornecida"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "integer",
+                          "example": 401
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/product-line/{slug}": {
+      "get": {
+        "summary": "Obter produtos por linha",
+        "description": "Retorna uma lista de produtos filtrados por uma linha de produto específica.",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Slug da linha de produto",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produtos obtidos com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "parent": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "description": "Nome da linha de produto"
                             },
-                            "product_lines": {
+                            "slug": {
+                              "type": "string",
+                              "description": "Slug da linha de produto"
+                            },
+                            "description": {
+                              "type": "string",
+                              "description": "Descrição da linha de produto"
+                            },
+                            "images": {
                               "type": "array",
                               "items": {
-                                "type": "object",
-                                "properties": {
-                                  "id": {
-                                    "type": "integer",
-                                    "description": "ID da linha de produto"
-                                  },
-                                  "name": {
-                                    "type": "string",
-                                    "description": "Nome da linha de produto"
-                                  },
-                                  "slug": {
-                                    "type": "string",
-                                    "description": "Slug da linha de produto"
-                                  },
-                                  "children": {
-                                    "type": "array",
-                                    "description": "Linhas de produto filhas",
-                                    "items": {
-                                      "$ref": "#/components/schemas/TaxonomyTerm"
+                                "type": "string",
+                                "description": "URL da imagem"
+                              }
+                            }
+                          }
+                        },
+                        "subcategories": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "Nome da subcategoria"
+                              },
+                              "slug": {
+                                "type": "string",
+                                "description": "Slug da subcategoria"
+                              },
+                              "products": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "integer",
+                                      "description": "ID do produto"
+                                    },
+                                    "title": {
+                                      "type": "string",
+                                      "description": "Título do produto"
+                                    },
+                                    "cas_number": {
+                                      "type": "string",
+                                      "description": "Número CAS do produto"
                                     }
                                   }
                                 }
@@ -197,39 +569,68 @@
                             }
                           }
                         }
-                      },
-                      "items": {
-                        "type": "integer",
-                        "description": "Número total de produtos retornados",
-                        "example": 10
+                      }
+                    },
+                    "items": {
+                      "type": "integer",
+                      "description": "Número total de produtos retornados",
+                      "example": 10
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Linha de produtos não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "line_not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Linha de produtos não encontrada"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "integer",
+                          "example": 404
+                        }
                       }
                     }
                   }
                 }
               }
-            },
-            "401": {
-              "description": "Erro de autenticação",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "code": {
-                        "type": "string",
-                        "example": "invalid_api_key"
-                      },
-                      "message": {
-                        "type": "string",
-                        "example": "API Key inválida ou não fornecida"
-                      },
-                      "data": {
-                        "type": "object",
-                        "properties": {
-                          "status": {
-                            "type": "integer",
-                            "example": 401
-                          }
+            }
+          },
+          "401": {
+            "description": "Erro de autenticação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_api_key"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "API Key inválida ou não fornecida"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "integer",
+                          "example": 401
                         }
                       }
                     }
@@ -239,94 +640,94 @@
             }
           }
         }
-      },
-      "/segment/{slug}": {
-        "get": {
-          "summary": "Listar produtos por segmento",
-          "description": "Retorna uma lista de produtos filtrados por um segmento específico, organizados por linhas de produto",
-          "parameters": [
-            {
-              "name": "slug",
-              "in": "path",
-              "required": true,
-              "description": "Slug do segmento",
-              "schema": {
-                "type": "string"
-              }
+      }
+    },
+    "/segment/{slug}": {
+      "get": {
+        "summary": "Listar produtos por segmento",
+        "description": "Retorna uma lista de produtos filtrados por um segmento específico, organizados por linhas de produto",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Slug do segmento",
+            "schema": {
+              "type": "string"
             }
-          ],
-          "security": [
-            {
-              "ApiKeyAuth": []
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Lista de produtos do segmento obtida com sucesso",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "success": {
-                        "type": "boolean",
-                        "example": true
-                      },
-                      "data": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "name": {
+          }
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de produtos do segmento obtida com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "description": "Nome da linha de produto principal"
+                          },
+                          "slug": {
+                            "type": "string",
+                            "description": "Slug da linha de produto principal"
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "Descrição da linha de produto principal"
+                          },
+                          "images": {
+                            "type": "array",
+                            "items": {
                               "type": "string",
-                              "description": "Nome da linha de produto principal"
+                              "description": "URL da imagem no tamanho original"
                             },
-                            "slug": {
-                              "type": "string",
-                              "description": "Slug da linha de produto principal"
-                            },
-                            "description": {
-                              "type": "string",
-                              "description": "Descrição da linha de produto principal"
-                            },
-                            "images": {
-                              "type": "array",
-                              "items": {
-                                "type": "string",
-                                "description": "URL da imagem no tamanho original"
-                              },
-                              "description": "URLs das imagens obrigatórias"
-                            },
-                            "categories": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "name": {
-                                    "type": "string",
-                                    "description": "Nome da subcategoria"
-                                  },
-                                  "slug": {
-                                    "type": "string",
-                                    "description": "Slug da subcategoria"
-                                  },
-                                  "products": {
-                                    "type": "array",
-                                    "items": {
-                                      "type": "object",
-                                      "properties": {
-                                        "id": {
-                                          "type": "integer",
-                                          "description": "ID do produto"
-                                        },
-                                        "title": {
-                                          "type": "string",
-                                          "description": "Título do produto"
-                                        },
-                                        "cas_number": {
-                                          "type": "string",
-                                          "description": "Número CAS do produto"
-                                        }
+                            "description": "URLs das imagens obrigatórias"
+                          },
+                          "categories": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string",
+                                  "description": "Nome da subcategoria"
+                                },
+                                "slug": {
+                                  "type": "string",
+                                  "description": "Slug da subcategoria"
+                                },
+                                "products": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": {
+                                        "type": "integer",
+                                        "description": "ID do produto"
+                                      },
+                                      "title": {
+                                        "type": "string",
+                                        "description": "Título do produto"
+                                      },
+                                      "cas_number": {
+                                        "type": "string",
+                                        "description": "Número CAS do produto"
                                       }
                                     }
                                   }
@@ -335,227 +736,39 @@
                             }
                           }
                         }
-                      },
-                      "items": {
-                        "type": "integer",
-                        "description": "Número total de produtos retornados",
-                        "example": 5
                       }
-                    }
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Segmento não encontrado",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "code": {
-                        "type": "string",
-                        "example": "segment_not_found"
-                      },
-                      "message": {
-                        "type": "string",
-                        "example": "Segmento não encontrado"
-                      },
-                      "data": {
-                        "type": "object",
-                        "properties": {
-                          "status": {
-                            "type": "integer",
-                            "example": 404
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "401": {
-              "description": "Erro de autenticação",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "code": {
-                        "type": "string",
-                        "example": "invalid_api_key"
-                      },
-                      "message": {
-                        "type": "string",
-                        "example": "API Key inválida ou não fornecida"
-                      },
-                      "data": {
-                        "type": "object",
-                        "properties": {
-                          "status": {
-                            "type": "integer",
-                            "example": 401
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/contact-form/submit": {
-        "post": {
-          "summary": "Enviar formulário de contato",
-          "description": "Cria um novo registro de contato no WordPress",
-          "security": [
-            {
-              "ApiKeyAuth": []
-            }
-          ],
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["name", "email", "message", "phone"],
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "description": "Nome do contato",
-                      "example": "Lucas Trindade"
                     },
-                    "email": {
-                      "type": "string",
-                      "format": "email",
-                      "description": "Email do contato",
-                      "example": "trindade@thetrinityweb.com.br"
-                    },
-                    "phone": {
-                      "type": "string",
-                      "description": "Telefone do contato",
-                      "example": "(11) 99999-9999"
-                    },
-                    "message": {
-                      "type": "string",
-                      "description": "Mensagem do contato",
-                      "example": "Gostaria de mais informações sobre seus produtos."
-                    },
-                    "tag": {
-                      "type": "string",
-                      "description": "Tag opcional para categorizar o contato",
-                      "example": "orçamento"
+                    "items": {
+                      "type": "integer",
+                      "description": "Número total de produtos retornados",
+                      "example": 5
                     }
                   }
                 }
               }
             }
           },
-          "responses": {
-            "200": {
-              "description": "Formulário enviado com sucesso",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "success": {
-                        "type": "boolean",
-                        "example": true
-                      },
-                      "message": {
-                        "type": "string",
-                        "example": "Formulário enviado com sucesso"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Erro de validação",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "code": {
-                        "type": "string",
-                        "example": "invalid_name_data"
-                      },
-                      "message": {
-                        "type": "string",
-                        "example": "Nome não pode estar vazio"
-                      },
-                      "data": {
-                        "type": "object",
-                        "properties": {
-                          "status": {
-                            "type": "integer",
-                            "example": 400
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "401": {
-              "description": "Erro de autenticação",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "code": {
-                        "type": "string",
-                        "example": "invalid_api_key"
-                      },
-                      "message": {
-                        "type": "string",
-                        "example": "API Key inválida ou não fornecida"
-                      },
-                      "data": {
-                        "type": "object",
-                        "properties": {
-                          "status": {
-                            "type": "integer",
-                            "example": 401
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Erro interno do servidor",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "code": {
-                        "type": "string",
-                        "example": "submission_failed"
-                      },
-                      "message": {
-                        "type": "string",
-                        "example": "Falha ao enviar formulário"
-                      },
-                      "data": {
-                        "type": "object",
-                        "properties": {
-                          "status": {
-                            "type": "integer",
-                            "example": 500
-                          }
+          "404": {
+            "description": "Segmento não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "segment_not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Segmento não encontrado"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "integer",
+                          "example": 404
                         }
                       }
                     }
@@ -563,113 +776,73 @@
                 }
               }
             }
-          }
-        }
-      },
-      "/post-slugs": {
-        "get": {
-          "summary": "Listar todos os slugs dos posts",
-          "description": "Retorna uma lista de todos os slugs dos posts publicados.",
-          "security": [
-            {
-              "ApiKeyAuth": []
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Lista de slugs obtida com sucesso",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "success": {
-                        "type": "boolean",
-                        "example": true
-                      },
-                      "data": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "slug": {
-                              "type": "string",
-                              "description": "Slug do post"
-                            }
-                          }
+          },
+          "401": {
+            "description": "Erro de autenticação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_api_key"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "API Key inválida ou não fornecida"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "integer",
+                          "example": 401
                         }
                       }
                     }
                   }
                 }
-              }
-            },
-            "401": {
-              "description": "Erro de autenticação",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "code": {
-                        "type": "string",
-                        "example": "invalid_api_key"
-                      },
-                      "message": {
-                        "type": "string",
-                        "example": "API Key inválida ou não fornecida"
-                      },
-                      "data": {
-                        "type": "object",
-                        "properties": {
-                          "status": {
-                            "type": "integer",
-                            "example": 401
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "components": {
-      "securitySchemes": {
-        "ApiKeyAuth": {
-          "type": "apiKey",
-          "in": "header",
-          "name": "X-API-Key"
-        }
-      },
-      "schemas": {
-        "TaxonomyTerm": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "integer",
-              "description": "ID do termo"
-            },
-            "name": {
-              "type": "string",
-              "description": "Nome do termo"
-            },
-            "slug": {
-              "type": "string",
-              "description": "Slug do termo"
-            },
-            "children": {
-              "type": "array",
-              "description": "Termos filhos",
-              "items": {
-                "$ref": "#/components/schemas/TaxonomyTerm"
               }
             }
           }
         }
       }
     }
-  } 
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    },
+    "schemas": {
+      "TaxonomyTerm": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID do termo"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome do termo"
+          },
+          "slug": {
+            "type": "string",
+            "description": "Slug do termo"
+          },
+          "children": {
+            "type": "array",
+            "description": "Termos filhos",
+            "items": {
+              "$ref": "#/components/schemas/TaxonomyTerm"
+            }
+          }
+        }
+      }
+    }
+  }
+}

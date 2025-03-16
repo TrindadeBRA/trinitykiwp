@@ -22,7 +22,7 @@ require_once THEME_DIR . 'endpoints/api-products.php';
 require_once THEME_DIR . 'endpoints/api-segment.php';
 require_once THEME_DIR . 'endpoints/api-contacts.php';
 require_once THEME_DIR . 'endpoints/api-posts-slugs.php';
-
+require_once THEME_DIR . 'endpoints/api-product-lines.php';
 // Impede acesso direto ao arquivo
 if (!defined('ABSPATH')) {
     exit;
