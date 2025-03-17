@@ -812,7 +812,7 @@
     "/product-line-slugs": {
       "get": {
         "summary": "Listar slugs das linhas de produtos principais",
-        "description": "Retorna uma lista de slugs apenas das linhas de produtos que são categorias pai (não inclui subcategorias)",
+        "description": "Retorna uma lista de dados das linhas de produtos que são categorias pai (não inclui subcategorias)",
         "security": [
           {
             "ApiKeyAuth": []
@@ -820,7 +820,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Lista de slugs obtida com sucesso",
+            "description": "Lista de dados obtida com sucesso",
             "content": {
               "application/json": {
                 "schema": {
@@ -835,9 +835,17 @@
                       "items": {
                         "type": "object",
                         "properties": {
+                          "id": {
+                            "type": "integer",
+                            "description": "ID da linha de produto"
+                          },
+                          "title": {
+                            "type": "string",
+                            "description": "Título da linha de produto"
+                          },
                           "slug": {
                             "type": "string",
-                            "description": "Slug da linha de produto principal"
+                            "description": "Slug da linha de produto"
                           }
                         }
                       }

@@ -18,15 +18,19 @@ function trinitykitcms_get_product_line_slugs($request) {
         'hide_empty' => false
     ));
 
-    // Cria um array para armazenar os slugs
-    $slugs = array();
+    // Cria um array para armazenar os dados dos posts
+    $post_data = array();
     foreach ($product_lines as $line) {
-        $slugs[] = array('slug' => $line->slug);
+        $post_data[] = array(
+            'id' => $line->term_id, // ID do post
+            'title' => $line->name,  // Título do post
+            'slug' => $line->slug     // Slug do post
+        );
     }
 
     return array(
         'success' => true,
-        'data' => $slugs
+        'data' => $post_data // Retorna os dados dos posts
     );
 }
 
