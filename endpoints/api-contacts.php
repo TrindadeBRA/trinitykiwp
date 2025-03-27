@@ -33,13 +33,43 @@ function contact_form_submit($request) {
     $message = isset($params['message']) ? sanitize_textarea_field($params['message']) : '';
     $tag = isset($params['tag']) ? sanitize_text_field($params['tag']) : '';
 
+    // Validação dos campos obrigatórios
+    if (empty($email) || !is_email($email)) {
+        return new WP_Error('invalid_email_data', __('Email inválido'), array('status' => 400));
+    }
+    
+    if (empty($tag)) {
+        return new WP_Error('invalid_tag_data', __('Tag não pode estar vazia'), array('status' => 400));
+    }
+
+    // Handle file upload
+    $attachment_id = null;
+    if (!empty($_FILES['attachment'])) {
+        require_once(ABSPATH . 'wp-admin/includes/file.php');
+        require_once(ABSPATH . 'wp-admin/includes/image.php');
+        require_once(ABSPATH . 'wp-admin/includes/media.php');
+
+        $file = $_FILES['attachment'];
+        $allowed_types = array('pdf', 'xls', 'xlsx', 'csv', 'doc', 'docx', 'jpg', 'jpeg', 'png', 'gif', 'svg', 'webp');
+        $file_ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+
+        if (!in_array($file_ext, $allowed_types)) {
+            return new WP_Error('invalid_file_type', __('Tipo de arquivo não permitido'), array('status' => 400));
+        }
+
+        if ($file['size'] > 10 * 1024 * 1024) { // 10MB limit
+            return new WP_Error('file_too_large', __('Arquivo muito grande. Tamanho máximo permitido: 10MB'), array('status' => 400));
+        }
+
+        $attachment_id = media_handle_upload('attachment', 0);
+        if (is_wp_error($attachment_id)) {
+            return new WP_Error('file_upload_failed', __('Falha ao fazer upload do arquivo'), array('status' => 500));
+        }
+    }
+
     // Validação dos campos
     if (empty($name)) {
         return new WP_Error('invalid_name_data', __('Nome não pode estar vazio'), array('status' => 400));
-    }
-    
-    if (empty($email) || !is_email($email)) {
-        return new WP_Error('invalid_email_data', __('Email inválido'), array('status' => 400));
     }
     
     if (empty($phone)) {
@@ -65,6 +95,11 @@ function contact_form_submit($request) {
     update_field('email', $email, $post_id);
     update_field('name', $name, $post_id);
     update_field('phone', $phone, $post_id);
+
+    // Update attachment field if file was uploaded
+    if ($attachment_id) {
+        update_field('attachment', $attachment_id, $post_id);
+    }
 
     // Adiciona a tag ao post
     if (!empty($tag)) {

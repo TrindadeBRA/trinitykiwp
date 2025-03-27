@@ -243,7 +243,7 @@
     "/contact-form/submit": {
       "post": {
         "summary": "Enviar formulário de contato",
-        "description": "Cria um novo registro de contato no WordPress",
+        "description": "Cria um novo registro de contato no WordPress com suporte para upload de arquivos. Apenas os campos email e tag são obrigatórios.",
         "security": [
           {
             "ApiKeyAuth": []
@@ -252,41 +252,45 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "required": [
-                  "name",
                   "email",
-                  "message",
-                  "phone"
+                  "tag"
                 ],
                 "properties": {
                   "name": {
                     "type": "string",
-                    "description": "Nome do contato",
+                    "description": "Nome do contato (opcional)",
                     "example": "Lucas Trindade"
                   },
                   "email": {
                     "type": "string",
                     "format": "email",
-                    "description": "Email do contato",
+                    "description": "Email do contato (obrigatório)",
                     "example": "trindade@thetrinityweb.com.br"
                   },
                   "phone": {
                     "type": "string",
-                    "description": "Telefone do contato",
+                    "description": "Telefone do contato (opcional)",
                     "example": "(11) 99999-9999"
                   },
                   "message": {
                     "type": "string",
-                    "description": "Mensagem do contato",
+                    "description": "Mensagem do contato (opcional)",
                     "example": "Gostaria de mais informações sobre seus produtos."
                   },
                   "tag": {
                     "type": "string",
-                    "description": "Tag opcional para categorizar o contato",
+                    "description": "Tag para categorizar o contato (obrigatório)",
                     "example": "orçamento"
+                  },
+                  "attachment": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Arquivo anexo (opcional). Formatos permitidos: PDF, XLS, XLSX, CSV, DOC, DOCX, JPG, JPEG, PNG, GIF, SVG, WEBP. Tamanho máximo: 10MB",
+                    "example": "arquivo.pdf"
                   }
                 }
               }
@@ -319,26 +323,74 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "string",
-                      "example": "invalid_name_data"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Nome não pode estar vazio"
-                    },
-                    "data": {
+                  "oneOf": [
+                    {
                       "type": "object",
                       "properties": {
-                        "status": {
-                          "type": "integer",
-                          "example": 400
+                        "code": {
+                          "type": "string",
+                          "example": "invalid_name_data"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Nome não pode estar vazio"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "status": {
+                              "type": "integer",
+                              "example": 400
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "invalid_file_type"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Tipo de arquivo não permitido"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "status": {
+                              "type": "integer",
+                              "example": 400
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "file_too_large"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Arquivo muito grande. Tamanho máximo permitido: 10MB"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "status": {
+                              "type": "integer",
+                              "example": 400
+                            }
+                          }
                         }
                       }
                     }
-                  }
+                  ]
                 }
               }
             }

@@ -16,6 +16,19 @@ function register_contact_fields() {
                     'instructions' => 'Digite o número de telefone',
                     'placeholder' => '(00) 00000-0000',
                 ),
+                array(
+                    'key' => 'field_attachment',
+                    'label' => 'Anexo',
+                    'name' => 'attachment',
+                    'type' => 'file',
+                    'instructions' => 'Anexe algum arquivo',
+                    'required' => 0,
+                    'return_format' => 'array',
+                    'preview_size' => 'medium',
+                    'library' => 'all',
+                    'mime_types' => 'pdf, xls, xlsx, csv, doc, docx, jpg, jpeg, png, gif, svg, webp',
+                    'max_size' => 10, // 10MB
+                ),
             ),
             'location' => array(
                 array(
