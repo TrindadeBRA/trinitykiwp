@@ -125,7 +125,8 @@ function handle_export_bulk_action($redirect_to, $action, $post_ids) {
         'Email',
         'Telefone',
         'Mensagem', 
-        'Tags'
+        'Tags',
+        'URL do Anexo'
     ));
     
     // Popula o CSV com os dados dos leads selecionados
@@ -145,6 +146,17 @@ function handle_export_bulk_action($redirect_to, $action, $post_ids) {
         $tags = wp_get_post_terms($post_id, 'post_tag', array('fields' => 'names'));
         $tags_string = !empty($tags) ? implode(', ', $tags) : '';
         
+        // Obtém a URL do anexo
+        $attachment_id = get_field('attachment', $post_id);
+        $attachment_url = '';
+        if ($attachment_id) {
+            if (is_array($attachment_id)) {
+                $attachment_url = $attachment_id['url'];
+            } else {
+                $attachment_url = wp_get_attachment_url($attachment_id);
+            }
+        }
+        
         // Formata a data
         $post_date = get_the_date('d/m/Y H:i:s', $post_id);
         
@@ -156,7 +168,8 @@ function handle_export_bulk_action($redirect_to, $action, $post_ids) {
             $email,
             $phone,
             $message,
-            $tags_string
+            $tags_string,
+            $attachment_url
         ));
     }
     
@@ -218,7 +231,8 @@ function process_export_all_leads() {
         'Email',
         'Telefone',
         'Mensagem', 
-        'Tags'
+        'Tags',
+        'URL do Anexo'
     ));
     
     // Consulta todos os leads
@@ -244,6 +258,17 @@ function process_export_all_leads() {
             $tags = wp_get_post_terms($post_id, 'post_tag', array('fields' => 'names'));
             $tags_string = !empty($tags) ? implode(', ', $tags) : '';
             
+            // Obtém a URL do anexo
+            $attachment_id = get_field('attachment', $post_id);
+            $attachment_url = '';
+            if ($attachment_id) {
+                if (is_array($attachment_id)) {
+                    $attachment_url = $attachment_id['url'];
+                } else {
+                    $attachment_url = wp_get_attachment_url($attachment_id);
+                }
+            }
+            
             // Formata a data
             $post_date = get_the_date('d/m/Y H:i:s');
             
@@ -255,7 +280,8 @@ function process_export_all_leads() {
                 $email,
                 $phone,
                 $message,
-                $tags_string
+                $tags_string,
+                $attachment_url
             ));
         }
     }
