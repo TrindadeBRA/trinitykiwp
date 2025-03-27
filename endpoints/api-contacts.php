@@ -18,11 +18,6 @@ add_action('rest_api_init', function () {
  * @return WP_REST_Response|WP_Error
  */
 function contact_form_submit($request) {
-
-    $api_validation = trinitykitcms_validate_api_key($request);
-    if (is_wp_error($api_validation)) {
-        return $api_validation;
-    }
     
     $params = $request->get_params();
 
@@ -34,7 +29,7 @@ function contact_form_submit($request) {
     $tag = isset($params['tag']) ? sanitize_text_field($params['tag']) : '';
 
     // Validação dos campos obrigatórios
-    if (empty($email) || !is_email($email)) {
+    if (empty($email)) {
         return new WP_Error('invalid_email_data', __('Email inválido'), array('status' => 400));
     }
     

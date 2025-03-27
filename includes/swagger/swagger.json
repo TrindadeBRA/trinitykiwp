@@ -243,12 +243,7 @@
     "/contact-form/submit": {
       "post": {
         "summary": "Enviar formulário de contato",
-        "description": "Cria um novo registro de contato no WordPress com suporte para upload de arquivos. Apenas os campos email e tag são obrigatórios.",
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ],
+        "description": "Cria um novo registro de contato no WordPress com suporte para upload de arquivos. Todos os campos são obrigatórios exceto o arquivo anexo.",
         "requestBody": {
           "required": true,
           "content": {
@@ -256,13 +251,16 @@
               "schema": {
                 "type": "object",
                 "required": [
+                  "name",
                   "email",
+                  "phone",
+                  "message",
                   "tag"
                 ],
                 "properties": {
                   "name": {
                     "type": "string",
-                    "description": "Nome do contato (opcional)",
+                    "description": "Nome do contato (obrigatório)",
                     "example": "Lucas Trindade"
                   },
                   "email": {
@@ -273,12 +271,12 @@
                   },
                   "phone": {
                     "type": "string",
-                    "description": "Telefone do contato (opcional)",
+                    "description": "Telefone do contato (obrigatório)",
                     "example": "(11) 99999-9999"
                   },
                   "message": {
                     "type": "string",
-                    "description": "Mensagem do contato (opcional)",
+                    "description": "Mensagem do contato (obrigatório)",
                     "example": "Gostaria de mais informações sobre seus produtos."
                   },
                   "tag": {
