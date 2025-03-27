@@ -17,6 +17,20 @@ function register_contact_fields() {
                     'placeholder' => '(00) 00000-0000',
                 ),
                 array(
+                    'key' => 'field_name',
+                    'label' => 'Nome',
+                    'name' => 'name',
+                    'type' => 'text',
+                    'instructions' => 'Digite o nome do contato',
+                ),
+                array(
+                    'key' => 'field_email',
+                    'label' => 'Email',
+                    'name' => 'email',
+                    'type' => 'email',
+                    'instructions' => 'Digite o email do contato',
+                ),
+                array(
                     'key' => 'field_attachment',
                     'label' => 'Anexo',
                     'name' => 'attachment',

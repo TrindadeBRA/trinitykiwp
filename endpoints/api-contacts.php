@@ -22,10 +22,10 @@ function contact_form_submit($request) {
     $params = $request->get_params();
 
     // Extrai e sanitiza os parâmetros
-    $name = isset($params['name']) ? sanitize_text_field($params['name']) : '';
+    $name = isset($params['name']) ? sanitize_text_field($params['name']) : 'N/A';
     $email = isset($params['email']) ? sanitize_email($params['email']) : '';
-    $phone = isset($params['phone']) ? sanitize_text_field($params['phone']) : '';
-    $message = isset($params['message']) ? sanitize_textarea_field($params['message']) : '';
+    $phone = isset($params['phone']) ? sanitize_text_field($params['phone']) : 'N/A';
+    $message = isset($params['message']) ? sanitize_textarea_field($params['message']) : 'N/A';
     $tag = isset($params['tag']) ? sanitize_text_field($params['tag']) : '';
 
     // Validação dos campos obrigatórios
@@ -62,21 +62,13 @@ function contact_form_submit($request) {
         }
     }
 
-    // Validação dos campos
-    if (empty($name)) {
-        return new WP_Error('invalid_name_data', __('Nome não pode estar vazio'), array('status' => 400));
-    }
-    
-    if (empty($phone)) {
-        return new WP_Error('invalid_phone_data', __('Telefone não pode estar vazio'), array('status' => 400));
-    }
-    
-    if (empty($message)) {
-        return new WP_Error('invalid_message_data', __('Mensagem não pode estar vazia'), array('status' => 400));
-    }
-
     // Define o título do post
-    $post_title = $name . ' - ' . $email;
+    if (!empty($name) && !empty($email)) {
+        $post_title = $name . ' - ' . $email;
+    } else {
+        $post_title = $email;
+    }
+    
 
     // Cria o post
     $post_id = wp_insert_post(array(
