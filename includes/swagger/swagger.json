@@ -456,8 +456,19 @@
     },
     "/post-slugs": {
       "get": {
-        "summary": "Listar todos os slugs dos posts",
-        "description": "Retorna uma lista de todos os slugs dos posts publicados.",
+        "summary": "Listar posts",
+        "description": "Retorna uma lista de posts publicados com seus detalhes. Pode ser limitado por quantidade e é ordenado por data (mais recente primeiro).",
+        "parameters": [
+          {
+            "name": "quantity",
+            "in": "query",
+            "required": false,
+            "description": "Quantidade de posts a retornar. Se não especificado, retorna todos os posts.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "security": [
           {
             "ApiKeyAuth": []
@@ -465,7 +476,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Lista de slugs obtida com sucesso",
+            "description": "Lista de posts obtida com sucesso",
             "content": {
               "application/json": {
                 "schema": {
@@ -483,9 +494,35 @@
                           "slug": {
                             "type": "string",
                             "description": "Slug do post"
+                          },
+                          "title": {
+                            "type": "string",
+                            "description": "Título do post"
+                          },
+                          "content": {
+                            "type": "string",
+                            "description": "Conteúdo completo do post"
+                          },
+                          "excerpt": {
+                            "type": "string",
+                            "description": "Resumo do post"
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Data de criação do post"
+                          },
+                          "featured_image_url": {
+                            "type": "string",
+                            "description": "URL da imagem destacada do post"
                           }
                         }
                       }
+                    },
+                    "total": {
+                      "type": "integer",
+                      "description": "Número total de posts retornados",
+                      "example": 10
                     }
                   }
                 }
