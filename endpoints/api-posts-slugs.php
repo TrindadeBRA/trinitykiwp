@@ -12,8 +12,10 @@ function trinitykitcms_get_post_slugs($request) {
         return $api_validation;
     }
 
-    // Obtém o parâmetro quantity da requisição
+    // Obtém os parâmetros da requisição
     $quantity = $request->get_param('quantity');
+    $per_page = $request->get_param('per_page');
+    $page = $request->get_param('page') ? absint($request->get_param('page')) : 1;
     
     // Configura os argumentos da query
     $args = array(
@@ -23,15 +25,33 @@ function trinitykitcms_get_post_slugs($request) {
         'fields' => 'ids'
     );
 
-    // Se quantity for especificado, limita o número de posts
+    // Se quantity for especificado, limita o número total de posts
     if ($quantity) {
         $args['numberposts'] = intval($quantity);
     } else {
         $args['numberposts'] = -1; // Retorna todos os posts
     }
 
-    // Obtém os posts
-    $posts = get_posts($args);
+    // Obtém todos os posts para calcular o total
+    $all_posts = get_posts($args);
+    $total_posts = count($all_posts);
+
+    // Se per_page for especificado, configura a paginação
+    if ($per_page) {
+        $per_page = absint($per_page);
+        $total_pages = ceil($total_posts / $per_page);
+        $offset = ($page - 1) * $per_page;
+        
+        // Atualiza os argumentos para paginação
+        $args['numberposts'] = $per_page;
+        $args['offset'] = $offset;
+        
+        // Obtém os posts da página atual
+        $posts = get_posts($args);
+    } else {
+        $posts = $all_posts;
+        $total_pages = 1;
+    }
 
     // Cria um array para armazenar os dados dos posts
     $posts_data = array();
@@ -52,7 +72,9 @@ function trinitykitcms_get_post_slugs($request) {
     return array(
         'success' => true,
         'data' => $posts_data,
-        'total' => count($posts_data)
+        'total' => $total_posts,
+        'total_pages' => $total_pages,
+        'current_page' => $page
     );
 }
 

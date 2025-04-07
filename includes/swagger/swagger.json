@@ -457,15 +457,34 @@
     "/post-slugs": {
       "get": {
         "summary": "Listar posts",
-        "description": "Retorna uma lista de posts publicados com seus detalhes. Pode ser limitado por quantidade e é ordenado por data (mais recente primeiro).",
+        "description": "Retorna uma lista de posts publicados com seus detalhes. Pode ser limitado por quantidade ou paginado.",
         "parameters": [
           {
             "name": "quantity",
             "in": "query",
             "required": false,
-            "description": "Quantidade de posts a retornar. Se não especificado, retorna todos os posts.",
+            "description": "Quantidade total de posts a retornar. Se não especificado, retorna todos os posts.",
             "schema": {
               "type": "integer"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "description": "Quantidade de posts por página para paginação. Se especificado, ignora o parâmetro quantity.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Número da página desejada (começa em 1). Só tem efeito se per_page for especificado.",
+            "schema": {
+              "type": "integer",
+              "default": 1
             }
           }
         ],
@@ -521,8 +540,18 @@
                     },
                     "total": {
                       "type": "integer",
-                      "description": "Número total de posts retornados",
-                      "example": 10
+                      "description": "Número total de posts existentes",
+                      "example": 50
+                    },
+                    "total_pages": {
+                      "type": "integer",
+                      "description": "Número total de páginas disponíveis (quando usando paginação)",
+                      "example": 5
+                    },
+                    "current_page": {
+                      "type": "integer",
+                      "description": "Número da página atual (quando usando paginação)",
+                      "example": 1
                     }
                   }
                 }
