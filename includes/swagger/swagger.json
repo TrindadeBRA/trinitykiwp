@@ -973,6 +973,163 @@
           }
         }
       }
+    },
+    "/post/{slug}": {
+      "get": {
+        "summary": "Obter post por slug",
+        "description": "Retorna os detalhes de um post específico usando seu slug",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Slug do post que deseja buscar",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "slug": {
+                          "type": "string",
+                          "description": "Slug do post"
+                        },
+                        "title": {
+                          "type": "string", 
+                          "description": "Título do post"
+                        },
+                        "content": {
+                          "type": "string",
+                          "description": "Conteúdo completo do post"
+                        },
+                        "excerpt": {
+                          "type": "string",
+                          "description": "Resumo do post"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Data de criação do post"
+                        },
+                        "featured_image_url": {
+                          "type": "string",
+                          "description": "URL da imagem destacada do post"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parâmetro slug não fornecido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "slug_required"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "O parâmetro slug é obrigatório"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "integer",
+                          "example": 400
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Post não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "post_not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Post não encontrado"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "integer",
+                          "example": 404
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Erro de autenticação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "invalid_api_key"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "API Key inválida ou não fornecida"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "integer",
+                          "example": 401
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
