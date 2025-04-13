@@ -26,6 +26,7 @@ function trinitykitcms_get_assets($request) {
     );
 }
 
+
 /**
  * Registra os endpoints da API para assets.
  */
