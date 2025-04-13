@@ -5,6 +5,7 @@ define('THEME_DIR', plugin_dir_path(__FILE__));
 
 // Configurações
 require_once THEME_DIR . 'configs.php';
+require_once THEME_DIR . 'assets.php';
 
 // Includes
 require_once THEME_DIR . 'includes/apikey.php';
@@ -25,6 +26,7 @@ require_once THEME_DIR . 'endpoints/api-posts-slugs.php';
 require_once THEME_DIR . 'endpoints/api-post-details.php';
 require_once THEME_DIR . 'endpoints/api-product-lines.php';
 require_once THEME_DIR . 'endpoints/api-product-line-slugs.php';
+require_once THEME_DIR . 'endpoints/api-assets.php';
 
 // Impede acesso direto ao arquivo
 if (!defined('ABSPATH')) {
