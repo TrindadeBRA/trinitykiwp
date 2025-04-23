@@ -95,7 +95,10 @@ function contact_form_submit($request) {
 
     // Caso a tag seja "Solicitar Amostra" ou "Literatura Técnica" enviar email para trindadebra@gmail.com
     if ($tag == 'Solicitar Amostra' || $tag == 'Literatura Técnica') {
-        $to = 'trindadebra@gmail.com';
+        $to = array(
+            'trindadebra@gmail.com',
+            'marketing@tiken.com.br',
+        );
         $subject = $tag . ' - ' . $name;
         $body = $message;
 
