@@ -93,7 +93,7 @@ function contact_form_submit($request) {
         wp_set_post_tags($post_id, $tag, true);
     }
 
-    // Caso a tag seja "Solicitar Amostra" ou "Literatura Técnica" enviar email para trindadebra@gmail.com
+    // Caso a tag seja "Solicitar Amostra" ou "Literatura Técnica" enviar email
     if ($tag == 'Solicitar Amostra' || $tag == 'Literatura Técnica') {
         $to = array(
             'trindadebra@gmail.com',
