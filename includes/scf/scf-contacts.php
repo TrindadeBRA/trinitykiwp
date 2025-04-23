@@ -62,4 +62,5 @@ function register_contact_fields() {
         ));
     }
 }
+
 ?>
