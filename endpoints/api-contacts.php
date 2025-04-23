@@ -93,6 +93,16 @@ function contact_form_submit($request) {
         wp_set_post_tags($post_id, $tag, true);
     }
 
+    // Caso a tag seja "Solicitar Amostra" ou "Literatura Técnica" enviar email para trindadebra@gmail.com
+    if ($tag == 'Solicitar Amostra' || $tag == 'Literatura Técnica') {
+        $to = 'trindadebra@gmail.com';
+        $subject = $tag . ' - ' . $name;
+        $body = $message;
+
+        wp_mail($to, $subject, $body);
+    }
+    
+
     // Retorna a resposta
     if ($post_id) {
         return new WP_REST_Response(array(

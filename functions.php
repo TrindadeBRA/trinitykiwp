@@ -73,3 +73,21 @@ function disable_gutenberg_editor() {
 }
 add_filter('use_block_editor_for_post', 'disable_gutenberg_editor', 10);
 add_filter('use_block_editor_for_post_type', 'disable_gutenberg_editor', 10);
+
+
+// Configuração do SMTP para o envio de emails
+add_action('phpmailer_init', function($phpmailer) {
+    $phpmailer->isSMTP();
+    $phpmailer->Host       = defined('SMTP_HOST') ? SMTP_HOST : 'smtp-hve.office365.com';
+    $phpmailer->SMTPAuth   = true;
+    $phpmailer->Port       = defined('SMTP_PORT') ? SMTP_PORT : 587;
+    $phpmailer->Username   = defined('SMTP_USERNAME') ? SMTP_USERNAME : '';
+    $phpmailer->Password   = defined('SMTP_PASSWORD') ? SMTP_PASSWORD : '';
+    $phpmailer->SMTPSecure = 'tls'; // STARTTLS
+    $phpmailer->From       = defined('SMTP_FROM') ? SMTP_FROM : '';
+    $phpmailer->FromName   = defined('SMTP_FROM_NAME') ? SMTP_FROM_NAME : '';
+    $phpmailer->addReplyTo(
+        defined('SMTP_REPLY_TO') ? SMTP_REPLY_TO : '',
+        defined('SMTP_REPLY_TO_NAME') ? SMTP_REPLY_TO_NAME : ''
+    );
+});
