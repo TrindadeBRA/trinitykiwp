@@ -98,6 +98,7 @@ function contact_form_submit($request) {
         $to = array(
             'trindadebra@gmail.com',
             'marketing@tiken.com.br',
+            'laboratorio@tiken.com.br'
         );
         $subject = $tag . ' - ' . $name;
         $body = $message;
